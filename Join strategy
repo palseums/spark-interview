@@ -1,0 +1,63 @@
+1) Broadcast hash join or map side join = ( equi join)
+2) shuffle hash join = ( equi join)
+3) shuffle sort merge join = ( equi join)
+4) Broadcast nested loop join
+5) shuffle nested loop join or CARTESIAN product join or shuffle and replication nested loop
+
+spark.conf.get("spark.sql.autoBroadcastJoinThreshold")
+spark.conf.set("spark.sql.autoBroadcastJoinThreshold","-1")
+spark.conf.set("spark.sql.preferSortMergeJoin","false")
+
+
+Broadcast hash join
+====================
+1) works only for equi join
+2) Works for all joins except full outer joins
+
+shuffle hash join
+=====================
+1) shuffle of the data will take place
+2) hash will take place on the join key
+3) works only for equi join
+4) Works for all joins except full outer joins
+4) sort merge join is disabled spark.conf.set("spark.sql.preferSortMergeJoin","false")
+5) It is an expensive join in a way that involves both shuffling and hashing. Maintaining a hash table requires memory
+    and computation
+
+
+
+shuffle sort merge join
+==========================
+It involves shuffling of data to get the same join key with the same worker and then performing sort merge join operation
+1) it consists of two steps
+2) First step - sort the dataframe
+3) second step - merge the data frame
+4) if the preferred sort merge join is enabled it will go for sort merge join or else it will go for shuffle hash join
+5) works only for equi join
+6) Works for all joins
+
+
+CARTESIAN product join
+=========================
+
+1) shuffle and replication does not mean a true shuffle as in records with same keys are sent to the same partition. Instead
+    the entire partition of the dataset is sent over or replicated to all the partitions for a full cross or nested loop join
+2) works for both equi and non-equi joins
+3) works only on inner like joins
+
+
+Broadcasted nested loop join
+==============================
+1) Broadcast nested loop join works by Broadcasting one of the entire datasets and performing a nested loop to join the data
+2) works for both equi and non-equi joins and works for all join types
+3) Sort is not involved in this join
+4) either side can be Broadcasted in a inner-like join
+5) smaller data set is Broadcasted to all executors while processing bigger dataset
+6) Left side is Broadcasted in a right outer join
+7) right side is Broadcasted in a left outer, left semi, left anti
+
+
+
+
+
+
