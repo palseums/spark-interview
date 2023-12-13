@@ -1,0 +1,38 @@
+Explain(mode='formatted')
+simple
+extended
+cost
+codegen
+formatted
+
+== Parsed Logical Plan ==
+'Aggregate ['order_status], ['order_status, count(1) AS count#538L]
++- Project [numid#512, order_date#518, order_number#523, _c3#507 AS order_status#528]
+   +- Project [numid#512, order_date#518, _c2#506 AS order_number#523, _c3#507]
+      +- Project [numid#512, _c1#505 AS order_date#518, _c2#506, _c3#507]
+         +- Project [_c0#504 AS numid#512, _c1#505, _c2#506, _c3#507]
+            +- Relation [_c0#504,_c1#505,_c2#506,_c3#507] csv
+
+== Analyzed Logical Plan ==
+order_status: string, count: bigint
+Aggregate [order_status#528], [order_status#528, count(1) AS count#538L]
++- Project [numid#512, order_date#518, order_number#523, _c3#507 AS order_status#528]
+   +- Project [numid#512, order_date#518, _c2#506 AS order_number#523, _c3#507]
+      +- Project [numid#512, _c1#505 AS order_date#518, _c2#506, _c3#507]
+         +- Project [_c0#504 AS numid#512, _c1#505, _c2#506, _c3#507]
+            +- Relation [_c0#504,_c1#505,_c2#506,_c3#507] csv
+
+== Optimized Logical Plan ==
+Aggregate [order_status#528], [order_status#528, count(1) AS count#538L]
++- Project [_c3#507 AS order_status#528]
+   +- Relation [_c0#504,_c1#505,_c2#506,_c3#507] csv
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- HashAggregate(keys=[order_status#528], functions=[finalmerge_count(merge count#542L) AS count(1)#537L], output=[order_status#528, count#538L])
+   +- Exchange hashpartitioning(order_status#528, 200), ENSURE_REQUIREMENTS, [plan_id=383]
+      +- HashAggregate(keys=[order_status#528], functions=[partial_count(1) AS count#542L], output=[order_status#528, count#542L])
+         +- Project [_c3#507 AS order_status#528]
+            +- FileScan csv [_c3#507] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[dbfs:/FileStore/tables/orders/part_00000], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<_c3:string>
+
+
