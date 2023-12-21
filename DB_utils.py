@@ -1,0 +1,6 @@
+dbutils.fs.help()
+dbutils.notebook.help()
+dbutils.widgets.help()
+dbutils.secrets.help("get")
+dbutils.fs.help("cp")
+dbutils.notebook.help("exit")

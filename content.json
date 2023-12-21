@@ -1,0 +1,41 @@
+{
+    "employee":[
+        {
+            "emp_id" : 1,
+            "designation": "Manager",
+            "attribute": [
+                {
+                    "parent_id" : 100,
+                    "status_flag": 1,
+                    "department":[
+                        {
+                            "dept_id" : 1001,
+                            "code": "ep",
+                            "dept_type": "md",
+                            "dept_flag": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "emp_id" : 2,
+            "designation": "supervisor",
+            "attribute": [
+                {
+                    "parent_id" : 200,
+                    "status_flag": 1,
+                    "department":[
+                        {
+                            "dept_id" : 1002,
+                            "code": "ep",
+                            "dept_type": "sd",
+                            "dept_flag": 1
+                        }
+                    ]
+                }
+            ]
+        }
+
+    ]
+}

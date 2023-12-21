@@ -1,0 +1,4 @@
+1) RDD and DF are same in immutability, in memory computing, resilient, distributed computing
+2) DF differs from RDD in maintaining the structure of the underlying data in the form of schema. Thus DF is equivalent to table in database
+3) when data is structured infomation about the data can be collected and used to derive the best execution plan through RBO, CBO 
+4) catalyst optimizer is available only to Data Frame
